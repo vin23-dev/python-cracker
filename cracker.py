@@ -1,6 +1,6 @@
 import hashlib
 
-password_hash = input('Enter hash: ')
+password_hash = input('Enter md5 hash: ')
 wordlist = input('File name: ')
 
 try:
