@@ -1,25 +1,23 @@
 import hashlib
+import itertools
+import time
 
-password_hash = input('Enter md5 hash: ')
-wordlist = input('File name: ')
+def getPW(pw, stringType):
+    start = time.time()
+    char = stringType
+    tries = 0
 
-try:
-    password_file = open(wordlist, 'r')
-except:
-    print('No File Found')
-    quit()
+    for i in range(1, 9):
+        for letter in itertools.product(char, repeat=i):
+            tries += 1
+            letter = ''.join(letter)
+            if letter == pw:
+                end = time.time()
+                distance = end - start
+                return (tries, distance)
 
+password = input('Password: ')
 
-for word in password_file:
-    
-    enc_word = word.encode('utf-8')
-    digest = hashlib.md5(enc_word.strip()).hexdigest()
-
-    if digest == password_hash:
-        print('Password found')
-        print('Password is ' + word)
-        flag = 1
-        break
-
-if flag == 0:
-    print('Password is not in the list')
+string = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()_-+=[{]}|:;'\",<.>/?"
+attempts, timeAmount = getPW(password, string)
+print('The cracker got the password %s in %s attempts and %s seconds.' % (password, attempts, timeAmount))
